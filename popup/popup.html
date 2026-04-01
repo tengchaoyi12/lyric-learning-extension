@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>歌词学习助手</title>
+</head>
+<body>
+  <div class="container">
+    <h1>🎤 歌词学习助手</h1>
+
+    <div class="status-section">
+      <div class="status-row">
+        <span class="label">当前状态：</span>
+        <span id="status" class="value">未在学习</span>
+      </div>
+      <div class="status-row">
+        <span class="label">当前歌词：</span>
+        <span id="lyric" class="value lyric-text">-</span>
+      </div>
+      <div class="status-row">
+        <span class="label">本句已播：</span>
+        <span id="count" class="value">0/3 遍</span>
+      </div>
+    </div>
+
+    <div class="setting-section">
+      <label>重复次数：</label>
+      <div class="repeat-control">
+        <button id="decrease">-</button>
+        <span id="repeat-times">3</span>
+        <button id="increase">+</button>
+      </div>
+    </div>
+
+    <div class="shortcut-section">
+      <div class="shortcut-title">快捷键：</div>
+      <div class="shortcut-item">上一句：Alt + ←</div>
+      <div class="shortcut-item">下一句：Alt + →</div>
+      <div class="shortcut-item">重置：Alt + R</div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
