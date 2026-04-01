@@ -10,6 +10,7 @@ const lyricDetector = new LyricDetector();
 // 处理歌词变化
 function handleLyricChange(lyric: string): void {
   counter.setCurrentLyric(lyric);
+  counter.increment();
 
   // 如果需要回跳重播
   if (counter.shouldAutoReplay()) {
