@@ -2,12 +2,18 @@ import type { LyricState, Settings, MessageType } from '../shared/types';
 
 const $ = (id: string) => document.getElementById(id);
 
-const statusEl = $('status');
-const lyricEl = $('lyric');
-const countEl = $('count');
-const repeatTimesEl = $('repeat-times');
+const statusEl = $('status') as HTMLElement;
+if (!statusEl) throw new Error('status element not found');
+const lyricEl = $('lyric') as HTMLElement;
+if (!lyricEl) throw new Error('lyric element not found');
+const countEl = $('count') as HTMLElement;
+if (!countEl) throw new Error('count element not found');
+const repeatTimesEl = $('repeat-times') as HTMLElement;
+if (!repeatTimesEl) throw new Error('repeat-times element not found');
 const decreaseBtn = $('decrease') as HTMLButtonElement;
+if (!decreaseBtn) throw new Error('decrease button not found');
 const increaseBtn = $('increase') as HTMLButtonElement;
+if (!increaseBtn) throw new Error('increase button not found');
 
 let currentRepeatTimes = 3;
 
