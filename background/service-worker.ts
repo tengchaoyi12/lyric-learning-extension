@@ -17,17 +17,25 @@ chrome.runtime.onMessage.addListener((message: MessageType, sender, sendResponse
   if (message.type === 'GET_STATE') {
     // 从 content script 获取最新状态
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]?.id) {
-        chrome.tabs.sendMessage(tabs[0].id, { type: 'GET_STATE' }, (response) => {
-          if (response && response.type === 'STATE_RESPONSE') {
-            currentState = response.state;
-          }
-          sendResponse(response);
-        });
-        return true; // 异步响应
+      // 问题2修复：当不存在 id 时返回本地缓存状态
+      if (!tabs[0]?.id) {
+        sendResponse({ type: 'STATE_RESPONSE', state: currentState });
+        return;
       }
+
+      chrome.tabs.sendMessage(tabs[0].id, { type: 'GET_STATE' }, (response) => {
+        // 问题1修复：检查 chrome.runtime.lastError
+        if (chrome.runtime.lastError) {
+          sendResponse({ type: 'STATE_RESPONSE', state: currentState });
+          return;
+        }
+        if (response && response.type === 'STATE_RESPONSE') {
+          currentState = response.state;
+        }
+        sendResponse(response);
+      });
     });
-    return true;
+    return true; // 异步响应
   }
 
   if (message.type === 'UPDATE_SETTINGS') {
