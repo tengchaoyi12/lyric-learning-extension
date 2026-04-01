@@ -28,10 +28,19 @@ function handleLyricChange(lyric: string): void {
 
 // 通知状态给 popup
 function notifyState(): void {
-  chrome.runtime.sendMessage({
-    type: 'STATE_RESPONSE',
-    state: counter.getState()
-  });
+  try {
+    chrome.runtime.sendMessage(
+      {
+        type: 'STATE_RESPONSE',
+        state: counter.getState()
+      },
+      (response) => {
+        // 忽略错误，因为 popup 可能未打开
+      }
+    );
+  } catch (error) {
+    // 忽略错误，因为 popup 可能未打开
+  }
 }
 
 // 初始化
@@ -42,14 +51,16 @@ function init(): void {
 
     if (e.key === 'ArrowLeft') {
       // 手动上一句
+      // 注意：goToPreviousLine 会触发歌词变化 → handleLyricChange → notifyState()
+      // 所以这里不需要再调用 notifyState()
       playController.goToPreviousLine();
-      counter.reset();
-      notifyState();
+      return;
     } else if (e.key === 'ArrowRight') {
       // 手动下一句
+      // 注意：goToNextLine 会触发歌词变化 → handleLyricChange → notifyState()
+      // 所以这里不需要再调用 notifyState()
       playController.goToNextLine();
-      counter.reset();
-      notifyState();
+      return;
     } else if (e.key === 'r' || e.key === 'R') {
       // 重置计数
       counter.reset();
