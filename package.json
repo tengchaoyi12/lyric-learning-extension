@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "歌词学习助手 - Chrome 扩展",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp manifest.json icons/*.png dist/",
     "clean": "rm -rf dist"
   },
   "devDependencies": {
+    "@types/chrome": "^0.1.38",
     "typescript": "^5.3.0"
   }
 }
